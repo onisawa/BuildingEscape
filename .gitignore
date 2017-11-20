@@ -1,7 +1,20 @@
+# =============== #
+# Unity generated #
+# =============== #
 */Build
 */Binaries
 */DerivedDataCache
 */Intermediate
 */Saved
 BuildingEscape/Content/StarterContent/
+
+# =============== #
+# Xcode generated #
+# =============== #
 */BuildingEscape.xcworkspace
+
+# =============== #
+# VS generated #
+# =============== #
+*/.vs
+*.sln
