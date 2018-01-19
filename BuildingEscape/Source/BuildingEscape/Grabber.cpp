@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Grabber.h"
+#include "DrawDebugHelpers.h"
 
 #define OUT
 
@@ -38,11 +39,39 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
         OUT PlayerViewPointLocation,
         OUT PlayerViewPointRotation
     );
-    
-    UE_LOG(LogTemp, Warning, TEXT("Location: %s, Rotation: %s"), *PlayerViewPointLocation.ToString(), *PlayerViewPointRotation.ToString());
 
-    // Ray-cast out tu reach distance
+    FVector LineTraceEnd = PlayerViewPointLocation + (PlayerViewPointRotation.Vector() * Reach);
+    
+    // Draw red trace
+    DrawDebugLine(
+      GetWorld(),
+      PlayerViewPointLocation,
+      LineTraceEnd,
+      FColor(255,0,0),
+      false,
+      0.f,
+      0.f,
+      10
+    );
+    
+    // Setuo query parameters
+    FCollisionQueryParams TraceParameters(FName(TEXT("")), false, GetOwner());
+
+    // Ray-cast out to reach distance
+    FHitResult Hit;
+    GetWorld()->LineTraceSingleByObjectType(
+        OUT Hit,
+        PlayerViewPointLocation,
+        LineTraceEnd,
+        FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
+        TraceParameters
+    );
     
     // See what we hit
+    AActor* ActorHit = Hit.GetActor();
+    if(ActorHit)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Hit: %s"), *(ActorHit->GetName()));
+    }
 }
 
