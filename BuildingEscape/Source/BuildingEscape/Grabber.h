@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
+#include "Components/InputComponent.h"
 #include "Grabber.generated.h"
 
 
@@ -27,5 +29,27 @@ public:
 private:
     // How far can reach
     float Reach = 100.f;
-	
+    
+    UPhysicsHandleComponent* PhysicsHandle = nullptr;
+    
+    UInputComponent* InputComponent = nullptr;
+    
+    // Ray-cast and Grab what reach
+    void Grab();
+    
+    // Called when "Grab" key released
+    void Release();
+    
+    void FindPhysicsHandleComponent();
+    void SetupInputComponent();
+    
+    // Return hit for first physics body in reach
+    const FHitResult GetFirstPhysicsBodyInReach();
+    
+    // Return Reach line start
+    FVector GetReachLineStart();
+    
+    // Return Reach line end
+    FVector GetReachLineEnd();
+
 };
